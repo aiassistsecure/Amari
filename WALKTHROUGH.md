@@ -11,8 +11,8 @@ A step-by-step guide to running your first signal scan, drafting outreach, and e
 - The repo cloned and deps installed:
 
 ```bash
-git clone <your-repo>
-cd interchained_scout
+git clone https://github.com/aiassistsecure/Amari
+cd amari
 npm install
 ```
 
