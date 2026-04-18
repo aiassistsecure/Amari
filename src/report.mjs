@@ -44,7 +44,7 @@ export async function exportReport({
 
     if (!leads.length) {
       doc.font("Helvetica-Oblique").fontSize(11).fillColor("#666")
-        .text("No signals in queue. Run `node cli.mjs scan` first.");
+        .text("No signals in queue. Run `node amari.mjs scan` first.");
       doc.end();
       stream.on("finish", () => resolveP(outPath));
       stream.on("error", rejectP);

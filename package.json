@@ -5,14 +5,14 @@
   "type": "module",
   "description": "Amari — Interchained signal scout. Uses @aiassist-secure/intelligence-mcp to surface real-time prospect signals, persists them to SQLite, and exports a PDF report.",
   "bin": {
-    "scout": "./cli.mjs"
+    "amari": "./amari.mjs"
   },
   "scripts": {
-    "scan": "node cli.mjs scan",
-    "draft": "node cli.mjs draft",
-    "list": "node cli.mjs list",
-    "report": "node cli.mjs report",
-    "stats": "node cli.mjs stats"
+    "scan": "node amari.mjs scan",
+    "draft": "node amari.mjs draft",
+    "list": "node amari.mjs list",
+    "report": "node amari.mjs report",
+    "stats": "node amari.mjs stats"
   },
   "dependencies": {
     "@aiassist-secure/intelligence-mcp": "^0.1.3",

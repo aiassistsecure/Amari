@@ -56,19 +56,19 @@ Each entry is a natural-language query sent directly to the Signal MCP `listen` 
 ## Step 3 — Run your first scan
 
 ```bash
-node cli.mjs scan
+node amari.mjs scan
 ```
 
 Amari boots the Signal MCP over stdio, calls `listen` for each watchlist item, and writes new signals to `scout.db`. Re-running is safe — duplicates are automatically filtered by signal ID.
 
 **Scan a single item while you're tuning queries:**
 ```bash
-node cli.mjs scan --only=mcp_seekers --limit=40
+node amari.mjs scan --only=mcp_seekers --limit=40
 ```
 
 **Watch what the MCP is doing under the hood:**
 ```bash
-node cli.mjs scan --verbose
+node amari.mjs scan --verbose
 ```
 
 ---
@@ -76,14 +76,14 @@ node cli.mjs scan --verbose
 ## Step 4 — Review what was found
 
 ```bash
-node cli.mjs list
+node amari.mjs list
 ```
 
 Shows the most recent 25 leads with status, source, detected intent, and URL. Filter by status:
 
 ```bash
-node cli.mjs list --status=new
-node cli.mjs list --status=drafted --limit=50
+node amari.mjs list --status=new
+node amari.mjs list --status=drafted --limit=50
 ```
 
 **Lead statuses:**
@@ -100,7 +100,7 @@ node cli.mjs list --status=drafted --limit=50
 ## Step 5 — Draft warm openers
 
 ```bash
-node cli.mjs draft
+node amari.mjs draft
 ```
 
 For every `new` lead without a draft, Amari sends the title, excerpt, and detected intent to your configured LLM and gets back a ≤90-word warm starter reply. The drafts are stored in `scout.db` alongside each lead.
@@ -110,7 +110,7 @@ These are starter lines — not copy-paste ready sends. You review, edit to your
 
 Draft a smaller batch while testing:
 ```bash
-node cli.mjs draft --limit=5
+node amari.mjs draft --limit=5
 ```
 
 ---
@@ -118,7 +118,7 @@ node cli.mjs draft --limit=5
 ## Step 6 — Export the report
 
 ```bash
-node cli.mjs report
+node amari.mjs report
 ```
 
 Generates a PDF with every `new` and `drafted` lead. Each block contains:
@@ -129,12 +129,12 @@ Generates a PDF with every `new` and `drafted` lead. Each block contains:
 
 Save to a specific path:
 ```bash
-node cli.mjs report --out=./reports/2026-04-18.pdf
+node amari.mjs report --out=./reports/2026-04-18.pdf
 ```
 
 Include exported leads too:
 ```bash
-node cli.mjs report --statuses=new,drafted,exported
+node amari.mjs report --statuses=new,drafted,exported
 ```
 
 After export, `drafted` leads are automatically marked `exported` so they don't clutter your next run.
@@ -146,17 +146,17 @@ After export, `drafted` leads are automatically marked `exported` so they don't 
 If a lead isn't relevant, mark it so it disappears from future reports:
 
 ```bash
-node cli.mjs ignore "reddit:https://reddit.com/..."
+node amari.mjs ignore "reddit:https://reddit.com/..."
 ```
 
-Use the exact `id` value shown in `node cli.mjs list`. Ignored leads stay in the database but are excluded from all reports and draft runs.
+Use the exact `id` value shown in `node amari.mjs list`. Ignored leads stay in the database but are excluded from all reports and draft runs.
 
 ---
 
 ## Step 8 — Check your stats
 
 ```bash
-node cli.mjs stats
+node amari.mjs stats
 ```
 
 Shows total leads, breakdown by status, breakdown by watchlist item, and a summary of the last scan run.
@@ -167,14 +167,14 @@ Shows total leads, breakdown by status, breakdown by watchlist item, and a summa
 
 ```bash
 # Morning: pull overnight signals and draft openers
-node cli.mjs scan
-node cli.mjs draft
+node amari.mjs scan
+node amari.mjs draft
 
 # Review the list, ignore anything irrelevant
-node cli.mjs list
+node amari.mjs list
 
 # Export your report when you're ready to work the queue
-node cli.mjs report --out=./reports/$(date +%F).pdf
+node amari.mjs report --out=./reports/$(date +%F).pdf
 ```
 
 Open the PDF, work down the list, paste each opener into the post's comment thread and personalise before sending.
@@ -196,7 +196,7 @@ You haven't exported your key. Run `export AIAS_API_KEY=aai_...` first.
 Either the signals already exist in `scout.db` (deduped) or the query is too narrow. Try `--verbose` to see what the MCP is returning, and widen your query in `watchlist.yaml`.
 
 **`draft` skips leads**  
-A lead is skipped if the LLM returns an empty response. Retry with `node cli.mjs draft` — it only touches leads that still need drafts.
+A lead is skipped if the LLM returns an empty response. Retry with `node amari.mjs draft` — it only touches leads that still need drafts.
 
 **`Could not find @aiassist-secure/intelligence-mcp`**  
 Run `npm install` from inside `interchained_scout/`.

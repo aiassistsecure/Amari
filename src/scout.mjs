@@ -19,34 +19,60 @@ export function loadWatchlist(path = DEFAULT_WATCHLIST) {
 
 function nowIso() { return new Date().toISOString(); }
 
+function pickStr(v) {
+  if (v == null) return null;
+  if (typeof v === "string") return v;
+  if (typeof v === "number" || typeof v === "bigint") return String(v);
+  return null;
+}
+
+function pickInt(v) {
+  if (v == null) return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? Math.trunc(n) : null;
+}
+
 function normaliseSignal(raw, watchlistId) {
-  // Signal MCP returns an array under `signals`; each item already carries
-  // `id`, `source`, `headline`, `url`, `intent`. Older shapes used `title`/
-  // `body`; we accept both.
+  // Handles the v0.1.3 Signal MCP shape:
+  //   { id, source, url, headline, excerpt, intent, intent_confidence,
+  //     match_reason, author: { handle, karma_bucket },
+  //     engagement: { score, comments }, captured_at, freshness_bucket }
+  // Plus older flat shapes for backwards compat.
   const id = raw.id ?? raw.signal_id ?? raw.url ?? raw.headline ?? raw.title;
-  const source = raw.source ?? "unknown";
+  const source = pickStr(raw.source) ?? "unknown";
   const title = raw.headline ?? raw.title ?? "";
-  const body = raw.body ?? raw.content ?? raw.excerpt ?? raw.summary ?? "";
-  let posted = raw.posted_at ?? raw.created_at ?? null;
+  const body = raw.excerpt ?? raw.body ?? raw.content ?? raw.summary ?? "";
+
+  // author can be a string (legacy) or an object { handle, karma_bucket }
+  let author = null;
+  if (typeof raw.author === "string") author = raw.author;
+  else if (raw.author && typeof raw.author === "object") author = pickStr(raw.author.handle ?? raw.author.name ?? raw.author.username);
+
+  // engagement nests score / comments in v0.1.3
+  const score = pickInt(raw.engagement?.score ?? raw.score);
+  const numComments = pickInt(raw.engagement?.comments ?? raw.num_comments ?? raw.comments);
+
+  let posted = pickStr(raw.posted_at ?? raw.created_at);
   if (!posted && raw.created_utc) {
     try { posted = new Date(Number(raw.created_utc) * 1000).toISOString(); } catch {}
   }
+
   return {
     id: String(id).startsWith(`${source}:`) ? String(id) : `${source}:${id}`,
     watchlist_id: watchlistId,
     source,
-    subreddit: raw.subreddit ?? null,
-    url: raw.url ?? "",
+    subreddit: pickStr(raw.subreddit),
+    url: pickStr(raw.url) ?? "",
     title: String(title).slice(0, 500),
     excerpt: String(body).slice(0, 400).trim(),
-    author: raw.author ?? null,
-    score: raw.score ?? null,
-    num_comments: raw.num_comments ?? null,
+    author,
+    score,
+    num_comments: numComments,
     posted_at: posted,
-    captured_at: nowIso(),
-    intent: raw.intent ?? (Array.isArray(raw.intents) ? raw.intents[0] : null),
-    intent_conf: raw.intent_confidence ?? raw.confidence ?? null,
-    match_reason: raw.match_reason ?? raw.reason ?? null,
+    captured_at: pickStr(raw.captured_at) ?? nowIso(),
+    intent: pickStr(raw.intent ?? (Array.isArray(raw.intents) ? raw.intents[0] : null)),
+    intent_conf: Number.isFinite(Number(raw.intent_confidence ?? raw.confidence)) ? Number(raw.intent_confidence ?? raw.confidence) : null,
+    match_reason: pickStr(raw.match_reason ?? raw.reason),
     raw,
   };
 }

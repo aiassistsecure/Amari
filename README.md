@@ -44,25 +44,25 @@ export AIAS_API_BASE_URL=https://api.aiassist.net   # optional, this is the defa
 
 ```bash
 # 1. Scan all watchlist items for fresh signals
-node cli.mjs scan
+node amari.mjs scan
 
 # Scan a single watchlist item with more results
-node cli.mjs scan --only=mcp_seekers --limit=40 --verbose
+node amari.mjs scan --only=mcp_seekers --limit=40 --verbose
 
 # 2. Draft warm openers for every new lead
-node cli.mjs draft
+node amari.mjs draft
 
 # 3. Review what was found
-node cli.mjs list
-node cli.mjs list --status=drafted
+node amari.mjs list
+node amari.mjs list --status=drafted
 
 # 4. Export to PDF
-node cli.mjs report
-node cli.mjs report --out=./reports/2026-04-18.pdf
+node amari.mjs report
+node amari.mjs report --out=./reports/2026-04-18.pdf
 
 # Utility
-node cli.mjs stats
-node cli.mjs ignore <lead_id>
+node amari.mjs stats
+node amari.mjs ignore <lead_id>
 ```
 
 ---
