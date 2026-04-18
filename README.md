@@ -29,7 +29,7 @@ Built as a direct reference implementation of the Signal MCP.
 
 ```bash
 git clone <repo>
-cd interchained_scout
+cd amari
 npm install
 
 export AIAS_API_KEY=aai_...
