@@ -28,7 +28,7 @@ Built as a direct reference implementation of the Signal MCP.
 ## Setup
 
 ```bash
-git clone https://github.com/aiassistsecure/Amari/
+git clone https://github.com/aiassistsecure/Amari
 cd amari
 npm install
 
