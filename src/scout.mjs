@@ -81,6 +81,8 @@ export async function runScout({ only = null, limitPerItem = 25, verbose = false
           query: item.query,
           sources: item.sources,
           limit: limitPerItem,
+          freshness: item.freshness,
+          minEngagement: item.min_engagement,
         });
         const signals = result.signals ?? [];
         let added = 0;

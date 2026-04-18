@@ -11,7 +11,7 @@ A step-by-step guide to running your first signal scan, drafting outreach, and e
 - The repo cloned and deps installed:
 
 ```bash
-git clone https://github.com/aiassistsecure/Amari
+git clone [<your-repo>](https://github.com/aiassistsecure/Amari)
 cd amari
 npm install
 ```
