@@ -1,0 +1,25 @@
+watchlist:
+  - id: mcp_seekers
+    label: People asking for MCP servers
+    query: "looking for MCP server OR anyone built an MCP OR model context protocol server recommendation"
+    sources: [reddit, hackernews]
+
+  - id: mcp_signal
+    label: Signal-intelligence MCP fit
+    query: "MCP for social listening OR MCP that scans reddit OR signal intelligence API"
+    sources: [reddit, hackernews]
+
+  - id: byok_infra
+    label: BYOK AI infra interest
+    query: "bring your own key AI OR BYOK LLM platform OR multi-provider llm gateway"
+    sources: [reddit, hackernews]
+
+  - id: lead_gen_oss
+    label: Lead-gen tooling shoppers
+    query: "alternative to Clay OR alternative to Apollo OR open source lead enrichment"
+    sources: [reddit, hackernews]
+
+  - id: agent_runtime
+    label: Agent sandbox seekers
+    query: "agent code execution sandbox OR safe agent runtime OR replit alternative for agents"
+    sources: [reddit, hackernews]
