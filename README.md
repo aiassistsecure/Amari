@@ -28,8 +28,8 @@ Built as a direct reference implementation of the Signal MCP.
 ## Setup
 
 ```bash
-git clone <repo>
-cd interchained_scout
+git clone [<repo>](https://github.com/aiassistsecure/Amari/)
+cd amari
 npm install
 
 export AIAS_API_KEY=aai_...
